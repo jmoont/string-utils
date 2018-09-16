@@ -55,7 +55,7 @@ class StringUtilsTwigExtension extends \Twig_Extension
     public function getExtract($text = null, $keyword = null, $wordsBefore = 5, $wordsAfter = 15, $boldTerm = true)
     {
 
-        $result = $text;
+        $result = trim(implode(' ', array_slice(explode(' ', $text), 0, $wordsBefore + $wordsAfter + 1))). "...";
 
         if(preg_match("/(((?:\S+\s+){0," . $wordsBefore . "}\s*\S*)(" . $keyword . ")(\b\s*(?:\S+\s+){0," . $wordsAfter . "}))/mui", $text, $matches)){
             if($boldTerm){
@@ -64,8 +64,13 @@ class StringUtilsTwigExtension extends \Twig_Extension
                     $result .= $matches[4];
                 }
             } else {
-                $result = implode(' ', array_slice(explode(' ', $matches[1]), 0, $wordsBefore + $wordsAfter));
+                $result = $matches[1];
             }
+            $result = "..." . trim($result) . "...";
+        }
+
+        if($result == "..."){
+            $result = "";
         }
 
         return $result;
