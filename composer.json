@@ -1,0 +1,40 @@
+{
+    "name": "jmoont/string-utils",
+    "description": "This twig plugin for the Craft CMS brings helpful string utils to your Twig templates.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "stringutils"
+    ],
+    "support": {
+        "docs": "https://github.com/jmoont/string-utils/blob/master/README.md",
+        "issues": "https://github.com/jmoont/string-utils/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Moont",
+            "homepage": "https://www.twitter.com/moonty"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "jmoont\\stringutils\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "StringUtils",
+        "handle": "string-utils",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/jmoont/string-utils/master/CHANGELOG.md",
+        "class": "jmoont\\stringutils\\StringUtils"
+    }
+}
