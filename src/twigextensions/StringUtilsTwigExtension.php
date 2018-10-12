@@ -86,9 +86,7 @@ class StringUtilsTwigExtension extends \Twig_Extension
         $countId = $this->count++;
         $ajaxId = Craft::$app->getRequest()->isAjax ? '-ajax' : '';
         $encodeId = $uniqueId.'-'.$countId.$ajaxId;
-        $encodedString = '
-        <span id="'.$encodeId.'"></span>
-        <script type="text/javascript">
+        $encodedString = '<span id="'.$encodeId.'"></span><script type="text/javascript">
             var safeencodeemailRot13String = "'.$rot13encryptedString.'";
             var safeencodeemailRot13 = safeencodeemailRot13String.replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
             document.getElementById("'.$encodeId.'").innerHTML = safeencodeemailRot13;
