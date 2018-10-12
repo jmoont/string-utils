@@ -60,6 +60,11 @@ class StringUtilsTwigExtension extends \Twig_Extension
 
         return $result;
     }
+    
+    /**
+     * @var int
+     */
+    private $count = 1;
 
     /**
      * Returns a rot13 encrypted string as well as a JavaScript decoder function.
