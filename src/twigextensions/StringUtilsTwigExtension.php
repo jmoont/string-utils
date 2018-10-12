@@ -82,17 +82,16 @@ class StringUtilsTwigExtension extends \Twig_Extension
     private function encodeRot13($string)
     {
         $rot13encryptedString = str_replace('"', '\"', str_rot13($string));
-        $uniqueId = uniqid('sproutencodeemail-', true);
+        $uniqueId = uniqid('safeencodeemail-', true);
         $countId = $this->count++;
         $ajaxId = Craft::$app->getRequest()->isAjax ? '-ajax' : '';
         $encodeId = $uniqueId.'-'.$countId.$ajaxId;
         $encodedString = '
         <span id="'.$encodeId.'"></span>
         <script type="text/javascript">
-            var sproutencodeemailRot13String = "'.$rot13encryptedString.'";
-            var sproutencodeemailRot13 = sproutencodeemailRot13String.replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
-            document.getElementById("'.$encodeId.'").innerHTML =
-            sproutencodeemailRot13;
+            var safeencodeemailRot13String = "'.$rot13encryptedString.'";
+            var safeencodeemailRot13 = safeencodeemailRot13String.replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
+            document.getElementById("'.$encodeId.'").innerHTML = safeencodeemailRot13;
         </script>';
         return $encodedString;
     }
