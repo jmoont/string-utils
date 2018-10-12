@@ -56,7 +56,7 @@ class StringUtilsTwigExtension extends \Twig_Extension
 
     public function getProtectedEmails($text = null)
     {
-        $result = preg_match('/(<a(.+)?href="(mailto:.*)"(.+)?>.*</a>)/mui', encodeRot13('$1'), $text);
+        $result = preg_match('/(<a(.+)?href="(mailto:.*)"(.+)?>.*</a>)/mui', $this->encodeRot13('$1'), $text);
 
         return $result;
     }
@@ -69,7 +69,7 @@ class StringUtilsTwigExtension extends \Twig_Extension
      *
      * @return mixed An encoded string and javascript decoder function
      */
-    public function encodeRot13($string)
+    private function encodeRot13($string)
     {
         $rot13encryptedString = str_replace('"', '\"', str_rot13($string));
         $uniqueId = uniqid('sproutencodeemail-', true);
