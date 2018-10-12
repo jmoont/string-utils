@@ -39,6 +39,7 @@ class StringUtilsTwigExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter('extract', [$this, 'getExtract']),
+            new \Twig_SimpleFilter('protectEmails', [$this, 'getProtectedEmails']),
         ];
     }
 
@@ -49,7 +50,41 @@ class StringUtilsTwigExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('extract', [$this, 'getExtract']),
+            new \Twig_SimpleFunction('protectEmails', [$this, 'getProtectedEmails']),
         ];
+    }
+
+    public function getProtectedEmails($text = null)
+    {
+        $result = preg_match('/(<a(.+)?href="(mailto:.*)"(.+)?>.*</a>)/mui', encodeRot13('$1'), $text);
+
+        return $result;
+    }
+
+    /**
+     * Returns a rot13 encrypted string as well as a JavaScript decoder function.
+     * http://snipplr.com/view/6037/
+     *
+     * @param  string $string Value to be encoded
+     *
+     * @return mixed An encoded string and javascript decoder function
+     */
+    public function encodeRot13($string)
+    {
+        $rot13encryptedString = str_replace('"', '\"', str_rot13($string));
+        $uniqueId = uniqid('sproutencodeemail-', true);
+        $countId = $this->count++;
+        $ajaxId = Craft::$app->getRequest()->isAjax ? '-ajax' : '';
+        $encodeId = $uniqueId.'-'.$countId.$ajaxId;
+        $encodedString = '
+        <span id="'.$encodeId.'"></span>
+        <script type="text/javascript">
+            var sproutencodeemailRot13String = "'.$rot13encryptedString.'";
+            var sproutencodeemailRot13 = sproutencodeemailRot13String.replace(/[a-zA-Z]/g, function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
+            document.getElementById("'.$encodeId.'").innerHTML =
+            sproutencodeemailRot13;
+        </script>';
+        return $encodedString;
     }
 
     public function getExtract($text = null, $keyword = null, $wordsBefore = 5, $wordsAfter = 15, $boldTerm = true)
