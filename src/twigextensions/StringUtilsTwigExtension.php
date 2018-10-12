@@ -56,7 +56,7 @@ class StringUtilsTwigExtension extends \Twig_Extension
 
     public function getProtectedEmails($text = null)
     {
-        $result = preg_replace_callback("(<a(.+)?href=\"(mailto:.*)\"(.+)?>.*</a>)", "processMatches", $text);
+        $result = preg_replace_callback("(<a(.+)?href=\"(mailto:.*)\"(.+)?>.*</a>)", array( $this, 'processMatches'), $text);
 
         return $result;
     }
